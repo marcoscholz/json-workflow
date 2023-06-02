@@ -33,5 +33,6 @@ jobs:
           echo "### Checking files for ${{ matrix.dir }}" >> $GITHUB_STEP_SUMMARY
           for jsonfile in ${{ matrix.dir }}*.json ; 
           do
-             jsonlint $jsonfile -c
+             echo "- $jsonfile" >> $GITHUB_STEP_SUMMARY
+             jsonlint $jsonfile -c >> $GITHUB_STEP_SUMMARY
           done;
