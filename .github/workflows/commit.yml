@@ -10,15 +10,10 @@ jobs:
     outputs:
       servers: ${{ steps.lookup.outputs.servers }}
     steps:
-      - uses: actions/setup-node@v3
-      - name: install jsonlint
-        run: |
-          sudo npm install jsonlint -g
       - uses: actions/checkout@v3
       - id: lookup
         run: |
           ls -d tests/*/ | jq --raw-input --slurp --compact-output 'split("\n")[:-1]' > folders.json
-          
           echo "servers=$(cat folders.json)" >> $GITHUB_OUTPUT
   json:
     name: Check
@@ -28,6 +23,11 @@ jobs:
       matrix:
         dir: ${{ fromJson(needs.prepare.outputs.servers) }}
     steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - name: install jsonlint
+        run: |
+          sudo npm install jsonlint -g
       - name: ${{ matrix.dir }}
         run: |
           echo "### Checking files for ${{ matrix.dir }}" >> $GITHUB_STEP_SUMMARY
