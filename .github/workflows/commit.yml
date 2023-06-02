@@ -20,9 +20,9 @@ jobs:
   json:
     name: json Check
     runs-on: ubuntu-latest
-    needs: [ prepare ]
+    needs: prepare
+    strategy:
+      matrix:
+        dir: ${{ fromJson(needs.prepare.outputs.servers) }}
     steps:
-      - uses: actions/checkout@v3
-      - name: check json
-        run: |
-         echo ${{ needs.prepare.outputs.servers }}
+      - run: echo ${{ matrix.dir }}
