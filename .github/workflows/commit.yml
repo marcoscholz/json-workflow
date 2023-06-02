@@ -2,15 +2,19 @@ name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
-  Validate-json:
+  setup:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
       - name: install jsonlint
         run: |
-          npm install jsonlint -g
+          sudo npm install jsonlint -g
+  Validate-jsons:
+    runs-on: ubuntu-latest
+    needs: [ setup ]
+    steps:
       - name: check json
         run: |
-          jsonlint test.json -cpi
+         ls -d tests/*/ | jq --raw-input --slurp --compact-output 'split("\n")[:-1]'
       - run: echo "🍏 This job's status is ${{ job.status }}."
