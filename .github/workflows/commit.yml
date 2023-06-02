@@ -6,14 +6,14 @@ jobs:
     name: nodejs setup
     runs-on: ubuntu-latest
     outputs:
-      servers: ${{ steps.prepare.outputs.servers }}
+      servers: ${{ steps.lookup.outputs.servers }}
     steps:
       - uses: actions/setup-node@v3
       - name: install jsonlint
         run: |
           sudo npm install jsonlint -g
       - uses: actions/checkout@v3
-      - name: check json
+      - id: lookup
         run: |
           server=$(ls -d tests/*/ | jq --raw-input --slurp --compact-output 'split("\n")[:-1]')
           echo "servers=$servers" >> $GITHUB_OUTPUT
