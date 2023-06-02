@@ -6,7 +6,7 @@ jobs:
     name: nodejs setup
     runs-on: ubuntu-latest
     outputs:
-      servers: ${{ steps.node.outputs.servers }}
+      servers: ${{ steps.prepare.outputs.servers }}
     steps:
       - uses: actions/setup-node@v3
       - name: install jsonlint
