@@ -2,7 +2,7 @@ name: GitHub Actions Demo
 # https://stackoverflow.com/questions/71679906/how-to-github-action-parallelize-tests-dynamically-by-folder
 
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+on: [ release ]
 jobs:
   prepare:
     name: nodejs setup
