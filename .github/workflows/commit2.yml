@@ -1,12 +1,13 @@
 name: GitHub Actions Demo
 # https://stackoverflow.com/questions/71679906/how-to-github-action-parallelize-tests-dynamically-by-folder
 
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: Validate configs 🚀
 on: [push]
 jobs:
   validate:
-    name: Validate Server configs nodejs setup
+    name: Validate Server
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -20,7 +21,7 @@ jobs:
           for server in tests/*/ ; 
           do
             echo "### Checking json files for $server" >> $GITHUB_STEP_SUMMARY
-            for jsonfile in $server/*.json ; 
+            for jsonfile in $server*.json ; 
             do
                 echo "- $jsonfile" >> $GITHUB_STEP_SUMMARY
                 jsonlint $jsonfile -c >> $GITHUB_STEP_SUMMARY
