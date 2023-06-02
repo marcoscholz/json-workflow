@@ -18,31 +18,20 @@ jobs:
       - id: lookup
         run: |
           ls -d tests/*/ | jq --raw-input --slurp --compact-output 'split("\n")[:-1]' > folders.json
-          echo "### Hello world! $(cat folders.json)" >> $GITHUB_STEP_SUMMARY
+          
           echo "servers=$(cat folders.json)" >> $GITHUB_OUTPUT
   json:
-    name: json Check
+    name: Check
     runs-on: ubuntu-latest
     needs: prepare
     strategy:
       matrix:
         dir: ${{ fromJson(needs.prepare.outputs.servers) }}
     steps:
-      - run: echo "${{ matrix.dir }}"
-
-  job1:
-    runs-on: ubuntu-latest
-    # Map a step output to a job output
-    outputs:
-      output1: ${{ steps.step1.outputs.test }}
-      output2: ${{ steps.step2.outputs.test }}
-    steps:
-    - id: step1
-      run: echo "test=hello" >> $GITHUB_OUTPUT
-    - id: step2
-      run: echo "test=world" >> $GITHUB_OUTPUT
-  job2:
-    runs-on: ubuntu-latest
-    needs: job1
-    steps:
-    - run: echo ${{needs.job1.outputs.output1}} ${{needs.job1.outputs.output2}}
+      - name: ${{ matrix.dir }}
+        run: |
+          echo "### Checking files for ${{ matrix.dir }}" >> $GITHUB_STEP_SUMMARY
+          for jsonfile in ${{ matrix.dir }}*.json ; 
+          do
+             jsonlint $jsonfile -c
+          done;
