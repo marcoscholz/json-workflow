@@ -16,6 +16,7 @@ jobs:
       - id: lookup
         run: |
           server=$(ls -d tests/*/ | jq --raw-input --slurp --compact-output 'split("\n")[:-1]')
+          echo $servers
           echo "servers=$servers" >> $GITHUB_OUTPUT
   json:
     name: json Check
