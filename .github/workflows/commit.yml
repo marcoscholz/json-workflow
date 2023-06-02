@@ -17,6 +17,7 @@ jobs:
       - uses: actions/checkout@v3
       - id: lookup
         run: |
+          ls -d tests/*/ | jq --raw-input --slurp --compact-output 'split("\n")[:-1]'
           server=$(ls -d tests/*/ | jq --raw-input --slurp --compact-output 'split("\n")[:-1]')
           echo "### Hello world! $servers" >> $GITHUB_STEP_SUMMARY
           echo "servers=$servers" >> $GITHUB_OUTPUT
