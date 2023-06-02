@@ -20,15 +20,15 @@ jobs:
           server=$(ls -d tests/*/ | jq --raw-input --slurp --compact-output 'split("\n")[:-1]')
           echo $servers
           echo "servers=$servers" >> $GITHUB_OUTPUT
-  json:
-    name: json Check
-    runs-on: ubuntu-latest
-    needs: prepare
-    strategy:
-      matrix:
-        dir: ${{ fromJson(needs.prepare.outputs.servers) }}
-    steps:
-      - run: echo ${{ matrix.dir }}
+  #json:
+    #name: json Check
+    #runs-on: ubuntu-latest
+    #needs: prepare
+    #strategy:
+    #  matrix:
+    #    dir: ${{ fromJson(needs.prepare.outputs.servers) }}
+    #steps:
+    #  - run: echo ${{ matrix.dir }}
 
   job1:
     runs-on: ubuntu-latest
