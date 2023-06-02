@@ -24,6 +24,7 @@ jobs:
             for jsonfile in $server*.json ; 
             do
                 echo "- $jsonfile" >> $GITHUB_STEP_SUMMARY
-                jsonlint $jsonfile -c >> $GITHUB_STEP_SUMMARY
+                #jsonlint $jsonfile -c >> $GITHUB_STEP_SUMMARY
+                cat $jsonfile | jq
             done;
           done;
